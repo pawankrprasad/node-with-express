@@ -1,0 +1,8 @@
+const SIGNATURE_KEY = '2b53161bacbf03efeb87b266edcda7675c29a0417947902a68b3175bacb7982780cd84853e746bb4db74f443696ea70e';
+
+
+
+
+module.exports = {
+    SIGNATURE_KEY
+}

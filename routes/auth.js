@@ -1,6 +1,6 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const { SIGNATURE_KEY } = require('../constant/constant');
+const jwt = require('../utils/jwt');
+
 const router = express.Router();
 
 const _username = "waviz";
@@ -10,18 +10,29 @@ const _password = "waviz@123"
 router.post('/login', (req, resp)=>{
 
     const {username, password } = req.body;
-    if(username === _username && password === _password){
-       const payload = { username: 'waviz' , role:"employee", permission:['employee.view','employee.edit']}
-        const token = jwt.sign(payload, SIGNATURE_KEY);
-        const userInfo = {
-            username,
-            token
+    try{
+        if(!username){
+            throw new Error("User name is missing");
         }
-        resp.send(userInfo);
+        if(!password){
+            throw new Error("Password is missing");
+        }
+    
+        if(username === _username && password === _password){
+           const payload = { username: 'waviz' , role:"employee", permission:['employee.view','employee.edit']}
+           const token = jwt.generateToken(payload);
+            resp.send({token, username: 'waviz'});
+        }
+        else{
+            throw new Error("username and password is not correct");
+        }
+        
+    }catch(error){
+
+        resp.status(401).send({error: error.message} );
     }
-    else{
-        resp.status(401).send("username and password is not correct");
-    }
+
+    
 })
 
 module.exports = router;

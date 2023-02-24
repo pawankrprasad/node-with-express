@@ -1,13 +1,12 @@
-const jwt = require('jsonwebtoken');
-const { SIGNATURE_KEY } = require('../constant/constant');
+const jwt = require('../utils/jwt');
 
 module.exports = (req, resp, next)=>{
     
     const { authorization } = req.headers;
     if(authorization){
         try{
-            const decoced =  jwt.verify(authorization, SIGNATURE_KEY);
-            req.userContext = { ...decoced }
+            const payload =  jwt.verifyToken(authorization);
+            req.userContext = { ...payload }
             next();
         }catch(error){
             resp.status(401).send({error: "Invalide authentication token"});

@@ -28,8 +28,19 @@ router.get('/:id',authMiddleware('employee.view'), (req, res)=>{
 
 router.post('/', authMiddleware('employee.edit'), (req, res)=>{
     const data = req.body;
-    employees.push(data);
-    res.send(data);
+    try{
+        if(!data.name){
+            throw new Error("User name is missing");
+        }
+        if(!data.email){
+            throw new Error("Email is missing");
+        }
+        employees.push(data);
+        res.send(data);
+    }catch (error){
+       res.status(401).send(error.message);
+    }
+   
 });
 
 router.delete('/:id',authMiddleware('employee.edit'), (req, res)=>{

@@ -13,7 +13,7 @@ const authRouters = require('./routes/auth');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//github example
+//hellokabir
 //localhost:3000/employees/employees
 app.use('/auth', authRouters)
 app.use('/employees', authMiddleware, employeeRoutes)

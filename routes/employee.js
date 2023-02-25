@@ -29,7 +29,16 @@ router.get('/:id',authMiddleware('employee.view'), (req, res)=>{
 router.post('/', authMiddleware('employee.edit'), (req, res)=>{
     const data = req.body;
     employees.push(data);
-    res.send(data);
+   try {
+    if (!data.name) {
+        throw new Error("Please fill employee name");
+    } if(!data.email){
+        throw new Error("Please fill employee email")
+    }
+    res.send(`Employee ${data.name} is created successfully `);
+   } catch (error) {
+    res.status(401).send({error: error.message} );
+}
 });
 
 router.delete('/:id',authMiddleware('employee.edit'), (req, res)=>{

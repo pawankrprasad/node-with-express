@@ -27,9 +27,33 @@ router.get('/:id',authMiddleware('employee.view'), (req, res)=>{
 });
 
 router.post('/', authMiddleware('employee.edit'), (req, res)=>{
-    const data = req.body;
-    employees.push(data);
-    res.send(data);
+
+const{id,name,email,phone}=req.body;
+
+try{
+    if(!id){
+      throw new Error("id must be require")
+    }
+    if(!name){
+        throw new Error("name must be require")
+      }
+      if(!phone){
+        throw new Error("phone must be require")
+      }
+      if(!email){
+        throw new Error("email must be require")
+      }
+      if(id && name && phone && email  ){
+           employees.push({ id:id,name:name,phone:phone,email:email});
+            res.send({Message:"new data added.."})
+        }
+
+}catch(error){
+ res.status(404).send({error: error.message});
+
+}
+
+   
 });
 
 router.delete('/:id',authMiddleware('employee.edit'), (req, res)=>{

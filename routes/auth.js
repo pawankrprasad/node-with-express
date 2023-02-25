@@ -6,7 +6,7 @@ const router = express.Router();
 const _username = "waviz";
 const _password = "waviz@123"
 
-
+//Login api to validate user
 router.post('/login', (req, resp)=>{
 
     const {username, password } = req.body;

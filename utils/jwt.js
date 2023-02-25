@@ -12,7 +12,7 @@ const verifyToken = (token) =>{
     const payload =  jwt.verify(token, SIGNATURE_KEY);
     return payload;
 }
-
+// module.exports
 module.exports = {
     generateToken,
     verifyToken

@@ -21,5 +21,12 @@ app.use('/auth', authRouters)
 app.use('/employees', authMiddleware, employeeRoutes)
 app.use('/products', authMiddleware, productRoutes)
 
+const errorHandler = (error, req, resp, next)=> {
+    console.log("Error occured ", error.message);
+    resp.status(error.statuCode).send({statusCode: error.statuCode,  error: error.message});
+}
+
+app.use(errorHandler)
+
 
 module.exports = app;

@@ -1,7 +1,9 @@
 const express = require('express');
+const request = require('request');
 const router = express.Router();
 const authMiddleware = require('../middleware/autherization');
 const {AppError} = require('../error');
+
 
 let employees = [
     {id:101, name:"Employee1", phone:"1234567", email:"emp1@gmail.com"},
@@ -12,8 +14,14 @@ let employees = [
 
 router.get('/', authMiddleware('employee.view'), (req, res)=>{
 
+    request('https://reqres.in/api/users?page=1', (error, response, body)=>{
+        console.log(JSON.parse(body));
+        res.send(JSON.parse(body));
+    })
+
+  
     console.log("req.userContext", req.userContext)
-    res.send(employees)
+    //res.send(employees)
 });
 
 
